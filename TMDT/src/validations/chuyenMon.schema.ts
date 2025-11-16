@@ -11,4 +11,4 @@ export const chuyenMonSchema = z.object({
   trangThai: z.boolean().optional()
 })
 
-export type DanhMucFormData = z.infer<typeof chuyenMonSchema>
+export type ChuyenMonFormData = z.infer<typeof chuyenMonSchema>
