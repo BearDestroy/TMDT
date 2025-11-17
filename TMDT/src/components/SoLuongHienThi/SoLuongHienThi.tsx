@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Button } from '@/components/ui/button'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select'
-import { createURLChuyenMon } from '@/utils/function'
+import { createURLDM } from '@/utils/function'
 
 interface Props {
   soTrangHienTai: number
@@ -39,7 +39,7 @@ export default function FooterTable({ soTrangHienTai, soLuongMoiTrang, trangThai
         value={soLuongMoiTrang.toString()}
         onValueChange={(v) => {
           const num = Number(v)
-          navigate(createURLChuyenMon(pathname, 1, num, trangThai, tuKhoa))
+          navigate(createURLDM(location.pathname, 1, num, trangThai, tuKhoa))
         }}
       >
         <SelectTrigger className='w-fit gap-2 data-[state=open]:shadow-[0_0_12px_rgba(251,146,60,0.8)] data-[state=open]:border-orange-400 transition-all duration-300'>
@@ -65,7 +65,7 @@ export default function FooterTable({ soTrangHienTai, soLuongMoiTrang, trangThai
           disabled={soTrangHienTai <= 1}
           onClick={() => {
             if (soTrangHienTai > 1) {
-              navigate(createURLChuyenMon(pathname, soTrangHienTai - 1, soLuongMoiTrang, trangThai, tuKhoa))
+              navigate(createURLDM(pathname, soTrangHienTai - 1, soLuongMoiTrang, trangThai, tuKhoa))
             }
           }}
         >
@@ -79,7 +79,7 @@ export default function FooterTable({ soTrangHienTai, soLuongMoiTrang, trangThai
               key={idx}
               variant={soTrangHienTai === p ? 'default' : 'outline'}
               size='icon'
-              onClick={() => navigate(createURLChuyenMon(pathname, p, soLuongMoiTrang, trangThai, tuKhoa))}
+              onClick={() => navigate(createURLDM(pathname, p, soLuongMoiTrang, trangThai, tuKhoa))}
               className={soTrangHienTai === p ? 'bg-orange-500 text-white' : ''}
             >
               {p}
@@ -97,7 +97,7 @@ export default function FooterTable({ soTrangHienTai, soLuongMoiTrang, trangThai
           disabled={soTrangHienTai >= tongSoTrang}
           onClick={() => {
             if (soTrangHienTai < tongSoTrang) {
-              navigate(createURLChuyenMon(pathname, soTrangHienTai + 1, soLuongMoiTrang, trangThai, tuKhoa))
+              navigate(createURLDM(pathname, soTrangHienTai + 1, soLuongMoiTrang, trangThai, tuKhoa))
             }
           }}
         >

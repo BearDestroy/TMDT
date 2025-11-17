@@ -4,34 +4,33 @@ import { Button } from 'src/components/ui/button'
 import { Input } from 'src/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table'
 import { Badge } from 'src/components/ui/badge'
-import CustomRadioGroup from 'src/components/CustomRadioInput'
-import FooterTable from '@/components/SoLuongHienThi'
 import TooltipTableCell from '@/components/TooltipCell'
-import { layDSChuyenMon, xoaChuyenMon } from '@/apis/chuyenmon.api'
+import { layDSLoaiDanhGia, xoaLoaiDanhGia } from '@/apis/loaidanhgia'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useQueryString } from '@/hooks/use-query-string'
 import { useLocation, useNavigate } from 'react-router-dom'
-import ChuyenMonForm from '@/components/Form/ChuyenMonForm'
-import type { ChuyenMonFormData } from '@/validations/chuyenMon.schema'
-import { createURLChuyenMon, formatDate } from '@/utils/function'
-import type { ChuyenMon } from '@/@types/ChuyenMon.type'
+import LoaiDanhGiaForm from '@/components/Form/LoaiDanhGiaForm'
+import type { loaiDanhGiaFormData } from '@/validations/loaidanhgia.schema'
+import { createURLDM, formatDate } from '@/utils/function'
 import { DeleteModal } from '@/components/Modal/ModalDelete'
 import { showErrorToast, showSuccessToast } from '@/utils/toast'
 import Loading from '@/components/Loading'
+import type { LoaiDanhGia } from '@/@types/LoaiDanhGia.type'
+import { CustomRadioGroup } from '@/components/CustomRadioInput'
+import { FooterTable } from '@/components/SoLuongHienThi'
 
-export function QuanLyChuyenMon() {
+export function QuanLyLoaiDanhGia() {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
   const queryString = useQueryString()
   const soTrang = Number(queryString.soTrang || 1)
   const soLuong = Number(queryString.soLuong || 10)
   const trangThai = queryString.trangThai || '0'
   const tuKhoa = queryString.tuKhoa || ''
   const { data, refetch, isLoading } = useQuery({
-    queryKey: ['dsChuyenMon', soTrang, soLuong, trangThai, tuKhoa],
-    queryFn: () => layDSChuyenMon(soTrang, soLuong, trangThai, tuKhoa)
+    queryKey: ['dsLoaiDanhGia', soTrang, soLuong, trangThai, tuKhoa],
+    queryFn: () => layDSLoaiDanhGia(soTrang, soLuong, trangThai, tuKhoa)
   })
-
+  const location = useLocation()
   const ketQua = data?.data?.ketQua || []
   const tongSoLuong = data?.data?.tongSoLuong || 0
   const soThuTuBatDau = (soTrang - 1) * soLuong
@@ -39,23 +38,23 @@ export function QuanLyChuyenMon() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearch = () => {
-    const url = createURLChuyenMon(pathname, 1, soLuong, trangThai, searchQuery)
+    const url = createURLDM(location.pathname, 1, soLuong, trangThai, searchQuery)
     navigate(url)
   }
 
-  const [editingChuyenMon, setEditingChuyenMon] = useState<ChuyenMonFormData | undefined>(undefined)
+  const [editingLoaiDanhGia, setEditingLoaiDanhGia] = useState<loaiDanhGiaFormData | undefined>(undefined)
   const [selectedRowId, setSelectedRowId] = useState<number | null>(null)
-  const handleSetEditingChuyenMon = (data: ChuyenMon) => {
-    setEditingChuyenMon({
-      tenChuyenMon: data.tenChuyenMon,
-      maChuyenMon: data.maChuyenMon,
+  const handleSetEditingLoaiDanhGia = (data: LoaiDanhGia) => {
+    setEditingLoaiDanhGia({
+      tenLoaiDanhGia: data.tenLoaiDanhGia,
+      maLoaiDanhGia: data.maLoaiDanhGia,
       trangThai: data.trangThai
     })
   }
 
   const handleFormSuccess = () => {
     setSelectedRowId(null)
-    setEditingChuyenMon(undefined)
+    setEditingLoaiDanhGia(undefined)
     refetch()
   }
 
@@ -72,7 +71,7 @@ export function QuanLyChuyenMon() {
     setIdToDelete(null)
   }
   const { mutate: deleteMutate, isPending: isDeleting } = useMutation({
-    mutationFn: ({ id }: { id: number }) => xoaChuyenMon(id),
+    mutationFn: ({ id }: { id: number }) => xoaLoaiDanhGia(id),
     onSuccess: (data) => {
       if (data.statusCode === 200) {
         showSuccessToast({ message: data.message })
@@ -102,7 +101,7 @@ export function QuanLyChuyenMon() {
           <div className='space-y-3'>
             <div className='flex gap-2'>
               <Input
-                placeholder='Tìm kiếm theo mã hoặc tên chuyên môn...'
+                placeholder='Tìm kiếm theo mã hoặc tên loại đánh giá...'
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -139,10 +138,10 @@ export function QuanLyChuyenMon() {
                     #
                   </TableHead>
                   <TableHead className='sticky top-0 bg-gray-200 z-20 text-center font-bold border border-gray-300 text-base text-black'>
-                    Mã chuyên môn
+                    Mã loại đánh giá
                   </TableHead>
                   <TableHead className='sticky top-0 bg-gray-200 z-20 text-center font-bold border border-gray-300 text-base text-black'>
-                    Tên chuyên môn
+                    Tên loại đánh giá
                   </TableHead>
                   <TableHead className='sticky top-0 bg-gray-200 z-20 text-center font-bold border border-gray-300 text-base text-black'>
                     Thời gian tạo
@@ -171,7 +170,7 @@ export function QuanLyChuyenMon() {
                         selectedRowId === s.id ? 'bg-orange-100' : ''
                       }`}
                       onClick={() => {
-                        handleSetEditingChuyenMon(s)
+                        handleSetEditingLoaiDanhGia(s)
                         setSelectedRowId(s.id)
                       }}
                     >
@@ -179,9 +178,9 @@ export function QuanLyChuyenMon() {
                         {soThuTuBatDau + i + 1}
                       </TableCell>
                       <TableCell className='text-center border text-base py-0.5 border-gray-200 border-b '>
-                        {s.maChuyenMon}
+                        {s.maLoaiDanhGia}
                       </TableCell>
-                      <TooltipTableCell text={s.tenChuyenMon} index={i} className='text-base py-3' />
+                      <TooltipTableCell text={s.tenLoaiDanhGia} index={i} className='text-base py-3' />
                       <TableCell className='text-center border text-base py-0.5 border-gray-200 border-b '>
                         {formatDate(s.thoiGianTao)}
                       </TableCell>
@@ -221,12 +220,12 @@ export function QuanLyChuyenMon() {
         </div>
 
         <div className='bg-white rounded-lg border p-6 w-full shadow-sm'>
-          <ChuyenMonForm
-            defaultValues={editingChuyenMon}
+          <LoaiDanhGiaForm
+            defaultValues={editingLoaiDanhGia}
             editingId={selectedRowId}
             setSelectRowId={setSelectedRowId}
             onSuccess={handleFormSuccess}
-          ></ChuyenMonForm>
+          ></LoaiDanhGiaForm>
         </div>
       </div>
       <DeleteModal

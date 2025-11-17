@@ -24,3 +24,7 @@ export const suaDanhMuc = (request: DanhMucFormData, id: number) => {
 export const xoaDanhMuc = (id: number) => {
   return http.delete<null>(`/danhmucs/${id}`)
 }
+
+export const layTatCaDanhMuc = () => {
+  return http.get<DanhMuc[]>(`/danhmucs/tatca`)
+}

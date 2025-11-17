@@ -86,7 +86,7 @@ export default function DanhMucForm({ defaultValues, editingId, setSelectRowId, 
       <fieldset disabled={isSubmitting} className='space-y-4'>
         <div>
           <Label htmlFor='code' className='text-sm font-medium'>
-            Mã chuyên môn
+            Mã danh mục
           </Label>
           <Input
             id='code'
@@ -98,7 +98,7 @@ export default function DanhMucForm({ defaultValues, editingId, setSelectRowId, 
 
         <div>
           <Label htmlFor='name' className='text-sm font-medium'>
-            Tên chuyên môn <span className='text-red-500'>*</span>
+            Tên danh mục <span className='text-red-500'>*</span>
           </Label>
           <Input
             id='name'

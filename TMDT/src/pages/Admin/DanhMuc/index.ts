@@ -1,2 +1,2 @@
-import { QuanLyChuyenMon } from './ChuyenMon'
-export default QuanLyChuyenMon
+import { QuanLyDanhMuc } from './DanhMuc'
+export default QuanLyDanhMuc

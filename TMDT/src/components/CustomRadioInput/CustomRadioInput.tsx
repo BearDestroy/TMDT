@@ -1,4 +1,4 @@
-import { createURLChuyenMon } from '@/utils/function'
+import { createURLDM } from '@/utils/function'
 import { Link, useLocation } from 'react-router-dom'
 
 interface RadioOption {
@@ -20,7 +20,7 @@ export function CustomRadioGroup({ options, value, soTrangHienTai, soLuongMoiTra
   return (
     <div className='flex gap-4 mt-2'>
       {options.map((option) => {
-        const url = createURLChuyenMon(pathname, soTrangHienTai, soLuongMoiTrang, option.value, tuKhoa)
+        const url = createURLDM(pathname, soTrangHienTai, soLuongMoiTrang, option.value, tuKhoa)
         const isActive = value === option.value
 
         return (

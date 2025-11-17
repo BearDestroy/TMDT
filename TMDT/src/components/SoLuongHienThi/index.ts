@@ -1,2 +1,4 @@
 import FooterTable from './SoLuongHienThi'
-export default FooterTable
+import FooterTableTheLoai from './SoLuongHienThiTheLoai'
+import FooterTableChuDe from './SoLuongHienThiChuDe'
+export { FooterTable, FooterTableTheLoai, FooterTableChuDe }

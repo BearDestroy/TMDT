@@ -1,2 +1,4 @@
 import { CustomRadioGroup } from './CustomRadioInput'
-export default CustomRadioGroup
+import { CustomRadioGroupTheLoai } from './CustomRadioInputTheLoai'
+
+export { CustomRadioGroup, CustomRadioGroupTheLoai }

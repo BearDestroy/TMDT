@@ -4,8 +4,6 @@ import { Button } from 'src/components/ui/button'
 import { Input } from 'src/components/ui/input'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from 'src/components/ui/table'
 import { Badge } from 'src/components/ui/badge'
-import CustomRadioGroup from 'src/components/CustomRadioInput'
-import FooterTable from '@/components/SoLuongHienThi'
 import TooltipTableCell from '@/components/TooltipCell'
 import { layDSChuyenMon, xoaChuyenMon } from '@/apis/chuyenmon.api'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -13,11 +11,13 @@ import { useQueryString } from '@/hooks/use-query-string'
 import { useLocation, useNavigate } from 'react-router-dom'
 import ChuyenMonForm from '@/components/Form/ChuyenMonForm'
 import type { ChuyenMonFormData } from '@/validations/chuyenMon.schema'
-import { createURLChuyenMon, formatDate } from '@/utils/function'
+import { createURLDM, formatDate } from '@/utils/function'
 import type { ChuyenMon } from '@/@types/ChuyenMon.type'
 import { DeleteModal } from '@/components/Modal/ModalDelete'
 import { showErrorToast, showSuccessToast } from '@/utils/toast'
 import Loading from '@/components/Loading'
+import { CustomRadioGroup } from '@/components/CustomRadioInput'
+import { FooterTable } from '@/components/SoLuongHienThi'
 
 export function QuanLyChuyenMon() {
   const navigate = useNavigate()
@@ -39,7 +39,7 @@ export function QuanLyChuyenMon() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const handleSearch = () => {
-    const url = createURLChuyenMon(pathname, 1, soLuong, trangThai, searchQuery)
+    const url = createURLDM(pathname, 1, soLuong, trangThai, searchQuery)
     navigate(url)
   }
 

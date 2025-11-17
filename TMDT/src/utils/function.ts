@@ -1,16 +1,47 @@
-export function createURLChuyenMon(
+export function createURLDM(
   location: string,
   soTrang: number,
   soLuongHienThi: number,
   trangThai: string,
-  keyword?: string
+  tuKhoa?: string
 ) {
   let url = `${location}?soTrang=${soTrang}&soLuong=${soLuongHienThi}&trangThai=${trangThai}`
 
-  if (keyword) {
-    url += `&tuKhoa=${encodeURIComponent(keyword)}`
+  if (tuKhoa) {
+    url += `&tuKhoa=${encodeURIComponent(tuKhoa)}`
   }
+  return url
+}
 
+export function createURLTheLoai(
+  location: string,
+  soTrang: number,
+  soLuongHienThi: number,
+  trangThai: string,
+  tuKhoa?: string,
+  idDanhMuc?: number | string
+) {
+  let url = `${location}?soTrang=${soTrang}&soLuong=${soLuongHienThi}&trangThai=${trangThai}&idDanhMuc=${idDanhMuc}`
+
+  if (tuKhoa) {
+    url += `&tuKhoa=${encodeURIComponent(tuKhoa)}`
+  }
+  return url
+}
+
+export function createURLChuDe(
+  location: string,
+  soTrang: number,
+  soLuongHienThi: number,
+  trangThai: string,
+  tuKhoa?: string,
+  idDanhMuc?: number | string
+) {
+  let url = `${location}?soTrang=${soTrang}&soLuong=${soLuongHienThi}&trangThai=${trangThai}&idTheLoai=${idDanhMuc}`
+
+  if (tuKhoa) {
+    url += `&tuKhoa=${encodeURIComponent(tuKhoa)}`
+  }
   return url
 }
 
